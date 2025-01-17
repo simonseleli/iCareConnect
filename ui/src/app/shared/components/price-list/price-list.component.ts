@@ -236,27 +236,27 @@ export class PriceListComponent implements OnInit, OnChanges {
     };
   }
 
-  onSaveItem(itemPrice): void {
-    this.pricingService.saveItemPrice(itemPrice).subscribe((response) => {
-      if (response && !response?.error) {
-        console.log('Price saved successfully');
-  
-        // Find the item in the local data and update it
-        const index = this.priceList.findIndex(
-          (item) => item.uuid === itemPrice.uuid
-        );
-        if (index > -1) {
-          // Update the specific item
-          this.priceList[index] = { ...this.priceList[index], ...response };
-        } else {
-          // If not found, optionally add it to the list (for new entries)
-          this.priceList = [...this.priceList, response];
-        }
+   onSaveItem(itemPrice): void {
+  this.pricingService.saveItemPrice(itemPrice).subscribe((response) => {
+    if (response && !response?.error) {
+      console.log('Price saved successfully');
+
+      // Find the item in the local data and update it
+      const index = this.priceList.findIndex(
+        (item) => item.uuid === itemPrice.uuid
+      );
+      if (index > -1) {
+        // Update the specific item
+        this.priceList[index] = { ...this.priceList[index], ...response };
       } else {
-        console.error('Error saving item price:', response);
+        // If not found, optionally add it to the list (for new entries)
+        this.priceList = [...this.priceList, response];
       }
-    });
-  }
+    } else {
+      console.error('Error saving item price:', response);
+    }
+  });
+}
 
   onFormUpdate(
     formValue: FormValue,
